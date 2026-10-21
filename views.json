@@ -1,13 +1,41 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Pay Reviews for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Pay reviews this week",
+    "subtitle": "Private planning snapshot. Not a payroll instruction.",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Work needing attention",
+        "sql": "select cycle,employee_code,name,manager,status,reason,due_on from attention_queue order by due_on,employee_code"
+      },
+      {
+        "title": "Manager submissions",
+        "sql": "select cycle,manager,status,count(*) records from proposal_register group by cycle,manager,status order by cycle,manager,status"
+      }
+    ]
+  },
+  {
+    "name": "budgets",
+    "title": "Annual increase and bonus budgets",
+    "sections": [
+      {
+        "title": "Separate budgets by currency and department",
+        "sql": "select * from budget_summary order by cycle,department",
+        "note": "Annual recurring increases and one-off bonuses are never added to one budget. No currency conversion."
+      }
+    ]
+  },
+  {
+    "name": "evidence",
+    "title": "Pay review evidence",
+    "sections": [
+      {
+        "title": "Record checks",
+        "sql": "select cycle,employee_code,rule,finding from compliance_findings order by cycle,employee_code"
+      },
+      {
+        "title": "Approved changes awaiting agreement",
+        "sql": "select cycle,employee_code,name,currency,proposed_cents,effective_on from proposal_register where status='approved' and agreement_ref is null"
       }
     ]
   }

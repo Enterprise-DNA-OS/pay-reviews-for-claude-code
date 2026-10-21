@@ -1,11 +1,53 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "cycle-pack",
+    "title": "Internal pay review decision pack",
+    "for_each": "select id,code from review_cycles order by code",
+    "file": "code",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Cycle",
+        "sql": "select code,currency,effective_on,due_on,status,owner,policy_ref from review_cycles where id=$1"
+      },
+      {
+        "title": "Budget",
+        "sql": "select b.* from budget_summary b join review_cycles c on c.code=b.cycle where c.id=$1"
+      },
+      {
+        "title": "Proposals",
+        "sql": "select employee_code,name,manager,status,currency,baseline_cents,proposed_cents,bonus_cents,review_ref,agreement_ref from proposal_register where id in (select id from proposals where cycle_id=$1) order by employee_code",
+        "note": "For authorised HR review only. No payroll changes or employee communications are issued."
+      }
+    ]
+  },
+  {
+    "name": "review-worksheet",
+    "title": "Internal employee review worksheet",
+    "for_each": "select p.id,e.employee_code from proposals p join people e on e.id=p.person_id order by e.employee_code",
+    "file": "employee_code",
+    "sections": [
+      {
+        "title": "Proposal and evidence",
+        "sql": "select cycle,employee_code,name,manager,status,currency,baseline_cents,proposed_cents,bonus_cents,rationale,review_by,review_ref,policy_check_ref,exception_ref,agreement_ref from proposal_register where id=$1",
+        "note": "Draft working paper. Not an offer, employment variation or total remuneration statement."
+      },
+      {
+        "title": "Recorded history",
+        "sql": "select action,actor,detail,created_at from activity where entity_id=$1 order by created_at,id"
+      }
+    ]
+  },
+  {
+    "name": "agreement-chase",
+    "title": "Internal agreement follow-up register",
+    "for_each": "select id,code from review_cycles order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Agreements still needed",
+        "sql": "select employee_code,name,manager,currency,proposed_cents,effective_on from proposal_register where id in (select id from proposals where cycle_id=$1) and status='approved' and agreement_ref is null",
+        "note": "The authorised employer records what was agreed. This worksheet sends nothing."
+      }
     ]
   }
 ]

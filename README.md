@@ -1,115 +1,121 @@
-<h1 align="center">Pay Reviews for Claude Code</h1>
+# Pay Reviews for Claude Code
 
-<p align="center">
-  <strong>The open-source pay review desk that is just a database and Claude Code.</strong>
-</p>
+The open-source pay review desk that is just a database and Claude Code. Built by Enterprise DNA. Works with Claude Code, Codex, OpenCode or Cursor.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+| Do it yourself | We customise it | We run it for you |
+|---|---|---|
+| Free, MIT. Follow the quick start below. | Your review fields, budget rules and CompXL history. [Book a call](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=compxl). | Installed and operated through Omni by Enterprise DNA. One setup fee, then a retainer. [See the offer](https://enterprisedna.co/omni/instead-of/compxl?utm_source=github&utm_medium=readme&utm_campaign=compxl). |
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your CompXL data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=compxl">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/compxl?utm_source=github&utm_medium=readme&utm_campaign=compxl">How it works</a></td>
-  </tr>
-</table>
+## The bill and the work
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-compxl">Instead of CompXL</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
+CompXL's published ADP Marketplace Annual Planning offer lists US$20,000 a year for up to 250 employees on a one-year contract. This is a listed edition, not a verified local customer invoice or a current CompXL Max quote. [Pricing evidence and selection](docs/research.md).
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
-
----
-
-## What is this
-
-Pay Reviews for Claude Code does the job you pay CompXL for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the CompXL dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays CompXL per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=compxl).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+This desk covers the HR operator's review cycle: verified annual salary baselines, employer-supplied pay bands, separate salary-increase and bonus budgets, manager proposals, review decisions and agreement evidence. A prepared CompXL planning worksheet saved as CSV imports in one command. Payroll, tax, licensed market data and legal pay decisions stay with the existing systems and authorised people.
 
 ## Quick start
-
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
 
 ```bash
 git clone https://github.com/Enterprise-DNA-OS/pay-reviews-for-claude-code.git
 cd pay-reviews-for-claude-code
 npm install
+npm test
 npm run demo
+npm run view
+npm run docs
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+Node 20 or later. PGlite runs locally without a server. DATABASE_URL selects a dedicated PostgreSQL 15+ database and DATA_DIR selects local storage. Use a fresh database and npm run migrate for business records. All demo people and references are fictional. Never seed demo data into your operational database.
 
-### Use it with your own Postgres or Supabase
+## Five weekly rituals
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+Chase unfinished manager worksheets, check departmental budgets, review range exceptions, collect agreement evidence and prepare the decision pack. /weekly-review drafts the Monday note from three current reports. A submitted proposal reserves its annual increase and bonus separately. The whole plan can still exceed budget, which /budget-check shows before managers finish.
 
-## The commands
+## Commands
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+31 CLI commands and 35 slash recipes. [Exact syntax and state transitions](docs/cli.md).
 
-| Command | What it does |
-|---|---|
-| `/...` | ... |
+- /cycles: Read review cycles and agreed dates.
+- /people: Read salary baselines, managers and departments.
+- /bands: Read employer-supplied salary ranges.
+- /budgets: Read separate increase and bonus budgets.
+- /proposals: Read the current proposal register.
+- /proposal: Read one proposal and its history.
+- /attention: Find overdue work and missing evidence.
+- /budget-check: Find departments whose full plan exceeds a budget.
+- /manager-chase: Find managers with unfinished worksheets.
+- /exceptions: Review proposals outside the recorded salary band.
+- /agreement-chase: Find approved changes awaiting agreement evidence.
+- /compliance: Check the evidence against the documented rules.
+- /insights: Answer ten questions across proposals, budgets and evidence.
+- /activity: Read recorded changes and their actor labels.
+- /add-band: Record an employer-approved salary band.
+- /add-person: Record a verified annual salary baseline.
+- /open-cycle: Open a review cycle with its approved policy.
+- /set-budget: Record authorised departmental budgets.
+- /propose: Record the human manager's proposed salary and bonus.
+- /activate: Reconcile an imported row into a draft proposal.
+- /revise: Revise a draft or rejected proposal.
+- /submit: Submit a draft after checking the reserved budget.
+- /review: Record a separate human reviewer's decision.
+- /record-agreement: Record evidence of an employee agreement already completed.
+- /finalise: Freeze a completed review cycle.
+- /log: Record an internal follow-up reference.
+- /import: Import a configured CompXL worksheet saved as CSV.
+- /export: Archive all domain records to a new private file.
+- /handover: Write an internal handover CSV for a finalised cycle.
+- /weekly-review: Draft the Monday review from attention, budget-check and compliance.
+- /draft-review-note: Draft an internal note from a proposal and its recorded history.
+- /documents: Render branded internal paperwork.
+- /view: Render the week, budget and evidence snapshots.
+- /new-view: Add a read-only report.
+- /customise: Add a field or rule through a migration.
 
-## Instead of compxl
+## Ten questions your desk answers today
 
-<!-- TODO(author): how to bring data across from CompXL; link docs/replace-compxl.md -->
+/insights answers these from existing data. They are shipped reports across your records, not a claim that CompXL cannot be configured to answer them.
 
-## Architecture
+1. Which managers have overdue proposals and missing salary evidence?
+2. Which departments exceed their proposed increase budget while holding approved changes?
+3. Which range exceptions still need a decision?
+4. Which approved changes have no agreement reference?
+5. Which imported approvals have never been reconciled?
+6. Which managers have both approved and unfinished proposals?
+7. How much approved annual increase is waiting on agreement, by currency?
+8. Which people appear in more than one open cycle?
+9. Which submitted Australian changes still need employment-policy review?
+10. Which people have a proposed bonus and an unresolved range exception?
 
-```
-pay-reviews-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
-```
+## Your first hour: ten things to ask for
 
-## Built for coding agents
+1. Put our business name and logo on the decision packs.
+2. Show the unfinished manager worksheets.
+3. Show which department's planned increases exceed budget.
+4. Explain why annual increases and bonuses stay separate.
+5. Show approved changes waiting for agreement evidence.
+6. Add our employer-approved salary band.
+7. Import our mapped workbook with a dry run.
+8. Compare source totals with the imported proposal count.
+9. Add our business-unit field through /customise.
+10. Prepare an internal handover after a complete test cycle.
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+## Evidence, privacy and ownership
 
-## Contributing
+Imported Approved rows stay unapproved until reconciled. A distinct human reviewer label, employment-policy review reference and any range exception are required for approval. Every approved change needs agreement evidence before finalisation. Finalised cycles cannot be changed through the CLI. Finalisation never updates the salary register or payroll. [Rules and sources](docs/compliance.md).
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+The free version uses a trusted local operator or a dedicated database owner. Actor labels are not authenticated identities and the activity log is not tamper-proof. Shared use needs authenticated permissions, tested backups and a retention policy. Keep salaries, imports, exports and rendered documents private. Protecting the employer's dataset does not remove an employee's rights to discuss their own pay.
 
-## Want it installed and run for you?
+npm run docs produces private cycle packs, individual review worksheets and agreement follow-up registers. These are internal working papers, not employment agreements or payslips. npm run view produces three branded read-only dashboards. brand.json controls identity. [Why no front end](docs/why-no-front-end.md).
 
-Enterprise DNA installs Pay Reviews for Claude Code for your business, migrates your CompXL data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
+## Import and verification
 
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=compxl)
-- Read more: [enterprisedna.co/omni/instead-of/compxl](https://enterprisedna.co/omni/instead-of/compxl?utm_source=github&utm_medium=readme&utm_campaign=compxl)
+[Switching guide](docs/replace-compxl.md). The importer validates one configured workbook saved as CSV. It rejects unknown columns, changed source rows and mismatched baselines, rolls back the entire file on any failure, and skips an identical repeat. Attachments, formulas, market-data subscriptions and historic access controls require separate migration work.
 
-## License
+npm test uses temporary storage and exercises every CLI command, seed idempotence, independent reviews, currency isolation, separate budgets, finalisation, import rollback, drafts, export completeness and HTML escaping. CI covers Windows and Linux on Node 20 and 22, plus PostgreSQL 17. Check the actual run before claiming those platforms passed.
 
-MIT. Copyright (c) 2026 Enterprise DNA.
+## Your version
+
+Omni by Enterprise DNA brings your agreed CompXL records across, builds your review rules and documents, connects the systems you need and operates the result. Team screens and a different stack can be scoped. One setup fee, then a retainer.
+
+[Book Sam's 30-minute call](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=compxl).
+
+MIT. Copyright 2026 Enterprise DNA. CompXL is its owner's trademark. This independent project is not affiliated with Salary.com or CompXL.
